@@ -1,0 +1,7 @@
+# Mac
+.DS_Store
+
+# XCode
+build/*
+*.pbxuser
+*.mode?v3
