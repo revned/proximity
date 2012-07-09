@@ -184,7 +184,7 @@
 		device = [NSKeyedUnarchiver unarchiveObjectWithData:deviceAsData];
 		[device retain];
 		[deviceName setStringValue:[NSString stringWithFormat:@"%@ (%@)",
-									[device getName], [device getAddressString]]];
+									[device name], [device addressString]]];
 		
 		if( [self isInRange] )
 		{			
@@ -306,8 +306,8 @@
 	[device retain];
 	
 	[deviceName setStringValue:[NSString stringWithFormat:@"%@ (%@)",
-								[device getName],
-								[device getAddressString]]];    
+								[device name],
+								[device addressString]]];    
 }
 
 - (IBAction)checkConnectivity:(id)sender
@@ -355,10 +355,17 @@
 - (IBAction)inRangeScriptChange:(id)sender
 {
 	NSOpenPanel *op = [NSOpenPanel openPanel];
-	[op runModalForDirectory:@"~" file:nil types:[NSArray arrayWithObject:@"scpt"]];
-	
-	NSArray *filenames = [op filenames];
-	[inRangeScriptPath setStringValue:[filenames objectAtIndex:0]];	
+  
+  NSArray *fileTypesArray;
+  fileTypesArray = [NSArray arrayWithObjects:@"scpt", nil];
+  
+  [op setCanChooseFiles:YES];
+  [op setAllowedFileTypes:fileTypesArray];
+  
+  if ( [op runModal] == NSOKButton ) {
+    NSArray *filenames = [op URLs];    
+  	[inRangeScriptPath setStringValue:[[filenames objectAtIndex:0] path]];
+  }
 }
 
 - (IBAction)inRangeScriptClear:(id)sender
@@ -374,10 +381,17 @@
 - (IBAction)outOfRangeScriptChange:(id)sender
 {
 	NSOpenPanel *op = [NSOpenPanel openPanel];
-	[op runModalForDirectory:@"~" file:nil types:[NSArray arrayWithObject:@"scpt"]];
-	
-	NSArray *filenames = [op filenames];
-	[outOfRangeScriptPath setStringValue:[filenames objectAtIndex:0]];    
+  
+  NSArray *fileTypesArray;
+  fileTypesArray = [NSArray arrayWithObjects:@"scpt", nil];
+  
+  [op setCanChooseFiles:YES];
+  [op setAllowedFileTypes:fileTypesArray];
+  
+  if ( [op runModal] == NSOKButton ) {
+    NSArray *filenames = [op URLs];    
+  	[outOfRangeScriptPath setStringValue:[[filenames objectAtIndex:0] path]];
+  }
 }
 
 - (IBAction)outOfRangeScriptClear:(id)sender
